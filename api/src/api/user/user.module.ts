@@ -1,9 +1,16 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
+import { RouterModule } from '@nestjs/core';
+import { ClientUserModule } from './client/user.module';
 
 @Module({
-  controllers: [UserController],
-  providers: [UserService]
+  imports: [
+    ClientUserModule,
+    RouterModule.register([
+      {
+        path: '/client',
+        module: ClientUserModule,
+      },
+    ]),
+  ],
 })
 export class UserModule {}

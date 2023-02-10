@@ -16,7 +16,7 @@ import { EnvironmentVariables } from '../configuration/validation';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
         synchronize: configService.get('DB_SYNC'),
-        entities: [],
+        entities: [`${__dirname}/../../dist/entity/**/*.entity.{ts,js}`],
       }),
       inject: [ConfigService],
     }),

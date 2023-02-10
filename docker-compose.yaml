@@ -11,10 +11,12 @@ services:
       MYSQL_DATABASE: smoim
       MYSQL_USER: eonsang
       MYSQL_PASSWORD: 1111
+      TZ: "Asia/Seoul"
     restart: always
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+09:00
     volumes:
       - ./db/mysql/data:/var/lib/mysql
 
