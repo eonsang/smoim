@@ -1,0 +1,27 @@
+version: '3.0'
+
+services:
+  database:
+    image: mysql:latest
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1111
+      MYSQL_DATABASE: sample
+      MYSQL_USER: eonsang
+      MYSQL_PASSWORD: 1111
+    restart: always
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./db/mysql/data:/var/lib/mysql
+
+  redis:
+    image: redis:alpine
+    command: redis-server --port 6379
+    container_name: redis
+    ports:
+      - "6379:6379"
+
