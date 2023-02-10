@@ -8,7 +8,7 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: 1111
-      MYSQL_DATABASE: sample
+      MYSQL_DATABASE: smoim
       MYSQL_USER: eonsang
       MYSQL_PASSWORD: 1111
     restart: always
