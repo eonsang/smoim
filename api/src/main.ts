@@ -16,6 +16,7 @@ async function bootstrap() {
   app.use(helmet());
 
   app.setGlobalPrefix('api');
+  app.enableVersioning();
 
   app.useGlobalPipes(
     new ValidationPipe({

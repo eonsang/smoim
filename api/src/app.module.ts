@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { UserModule } from '@src/api/user/user.module';
 import { DatabaseModule } from './entity/databaseModule';
 import { ThrottlerModule } from '@nestjs/throttler';
@@ -39,6 +39,10 @@ import { HealthModule } from '@src/api/health/health.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: TimeoutInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
     },
   ],
 })

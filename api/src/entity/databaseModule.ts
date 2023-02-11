@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ConfigurationModule } from '../configuration/configuration.module';
 import { ConfigService } from '@nestjs/config';
 import { EnvironmentVariables } from '../configuration/validation';
@@ -9,6 +10,7 @@ import { EnvironmentVariables } from '../configuration/validation';
     TypeOrmModule.forRootAsync({
       imports: [ConfigurationModule],
       useFactory: (configService: ConfigService<EnvironmentVariables>) => ({
+        namingStrategy: new SnakeNamingStrategy(),
         type: 'mysql',
         host: configService.get('DB_HOST'),
         port: configService.get('DB_PORT'),
