@@ -1,10 +1,9 @@
-import { Inter } from '@next/font/google'
-
+import { ReactElement } from "react";
 
 export default function Home() {
-  return (
-    <>
-      gg
-    </>
-  )
+  return <>gg</>;
 }
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return page;
+};
