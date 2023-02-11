@@ -8,6 +8,7 @@ import {
   TimeoutInterceptor,
   TransformResponseInterceptor,
 } from '@src/interceptor';
+import { HealthModule } from '@src/api/health/health.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import {
     }),
     DatabaseModule,
     UserModule,
+    HealthModule,
   ],
   controllers: [],
   providers: [
