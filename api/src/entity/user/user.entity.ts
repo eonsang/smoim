@@ -1,12 +1,17 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, Index } from 'typeorm';
 import { CommonEntity } from '@src/entity/commonEntity';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsEnum, IsString, MaxLength } from 'class-validator';
+import { convert, LocalDateTime } from '@js-joda/core';
+import { LocalDateTimeTransformer } from '@src/entity/transfomer/localDateTimeTransformer';
+import { Transform } from 'class-transformer';
 
-export enum UserProfileEnum {
+export enum UserProviderEnum {
   google = 'google',
 }
 
+@Index(['email'])
+@Index(['providerId', 'provider'])
 @Entity({ name: 'user' })
 export class UserEntity extends CommonEntity {
   @ApiProperty({
@@ -15,7 +20,7 @@ export class UserEntity extends CommonEntity {
   })
   @MaxLength(50)
   @IsString()
-  @Column({ length: 50 })
+  @Column({ length: 50, nullable: false, unique: true })
   nickname: string;
 
   @ApiProperty({
@@ -23,25 +28,43 @@ export class UserEntity extends CommonEntity {
     description: '이메일',
   })
   @IsEmail()
-  @Column()
+  @Column({
+    unique: true,
+    nullable: false,
+  })
   email: string;
 
   @ApiProperty({
-    example: 'GOOGLE',
+    example: 'google',
     description: '가입한 SNS',
   })
-  @IsEnum(UserProfileEnum)
+  @IsEnum(UserProviderEnum)
   @Column({
     type: 'enum',
-    enum: UserProfileEnum,
+    enum: UserProviderEnum,
+    nullable: false,
   })
-  provider: UserProfileEnum;
+  provider: UserProviderEnum;
 
   @ApiProperty({
-    example: '123123123',
+    example: 'asdgawegsdg',
     description: '가입한 SNS pk',
   })
   @IsString()
-  @Column()
+  @Column({
+    unique: true,
+    nullable: false,
+  })
   providerId: string;
+
+  @IsString()
+  @Column({
+    length: 32,
+    type: 'char',
+  })
+  sessionId: string;
+
+  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer() })
+  @Transform(({ value }) => convert(value).toDate())
+  lastLogin: LocalDateTime;
 }

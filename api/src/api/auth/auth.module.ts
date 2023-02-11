@@ -1,18 +1,16 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
-import { ClientUserModule } from './client/user.module';
+import { AuthClientModule } from '@src/api/auth/client/auth.module';
 
 @Module({
   imports: [
-    ClientUserModule,
+    AuthClientModule,
     RouterModule.register([
       {
         path: '/client',
-        module: ClientUserModule,
+        module: AuthClientModule,
       },
     ]),
   ],
-  providers: [],
-  exports: [],
 })
-export class UserModule {}
+export class AuthModule {}

@@ -1,14 +1,12 @@
-import { ClassSerializerInterceptor, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UserModule } from '@src/api/user/user.module';
 import { DatabaseModule } from './entity/databaseModule';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter, AllExceptionsFilter } from '@src/filter';
-import {
-  TimeoutInterceptor,
-  TransformResponseInterceptor,
-} from '@src/interceptor';
+
 import { HealthModule } from '@src/api/health/health.module';
+import { AuthModule } from '@src/api/auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +16,7 @@ import { HealthModule } from '@src/api/health/health.module';
     }),
     DatabaseModule,
     UserModule,
+    AuthModule,
     HealthModule,
   ],
   controllers: [],
@@ -29,20 +28,6 @@ import { HealthModule } from '@src/api/health/health.module';
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
-    },
-
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: TransformResponseInterceptor,
-    },
-
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: TimeoutInterceptor,
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: ClassSerializerInterceptor,
     },
   ],
 })

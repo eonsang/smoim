@@ -19,6 +19,7 @@ import { EnvironmentVariables } from '../configuration/validation';
         database: configService.get('DB_DATABASE'),
         synchronize: configService.get('DB_SYNC'),
         entities: [`${__dirname}/../../dist/entity/**/*.entity.{ts,js}`],
+        logging: configService.get('DB_LOGGING'),
       }),
       inject: [ConfigService],
     }),

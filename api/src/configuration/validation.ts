@@ -16,6 +16,9 @@ export class EnvironmentVariables {
   @IsEnum(Environment)
   NODE_ENV: Environment;
 
+  @IsNumber()
+  PORT: number;
+
   @IsString()
   DB_HOST: string;
 
@@ -31,8 +34,26 @@ export class EnvironmentVariables {
   @IsString()
   DB_PASSWORD: string;
 
+  @IsBoolean()
+  DB_LOGGING: boolean;
+
   @IsString()
   DB_DATABASE: string;
+
+  @IsString()
+  CLIENT_JWT_SECRET_KEY: string;
+
+  @IsNumber()
+  HTTP_TIMEOUT: number;
+
+  @IsNumber()
+  HTTP_MAX_REDIRECT: number;
+
+  @IsString()
+  SWAGGER_USER: string;
+
+  @IsString()
+  SWAGGER_PASSWORD: string;
 }
 
 export function validate(config: Record<string, unknown>) {
