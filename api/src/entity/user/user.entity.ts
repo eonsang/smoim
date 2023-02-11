@@ -1,10 +1,10 @@
-import { Column, Entity, Index } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, Index } from 'typeorm';
 import { CommonEntity } from '@src/entity/commonEntity';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsEnum, IsString, MaxLength } from 'class-validator';
 import { convert, LocalDateTime } from '@js-joda/core';
 import { LocalDateTimeTransformer } from '@src/entity/transfomer/localDateTimeTransformer';
-import { Transform } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 
 export enum UserProviderEnum {
   google = 'google',
@@ -38,6 +38,7 @@ export class UserEntity extends CommonEntity {
     example: 'google',
     description: '가입한 SNS',
   })
+  @Exclude()
   @IsEnum(UserProviderEnum)
   @Column({
     type: 'enum',
@@ -50,6 +51,7 @@ export class UserEntity extends CommonEntity {
     example: 'asdgawegsdg',
     description: '가입한 SNS pk',
   })
+  @Exclude()
   @IsString()
   @Column({
     unique: true,
@@ -57,6 +59,7 @@ export class UserEntity extends CommonEntity {
   })
   providerId: string;
 
+  @Exclude()
   @IsString()
   @Column({
     length: 32,
@@ -67,4 +70,8 @@ export class UserEntity extends CommonEntity {
   @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer() })
   @Transform(({ value }) => convert(value).toDate())
   lastLogin: LocalDateTime;
+
+  @Exclude()
+  @DeleteDateColumn({ type: 'datetime' })
+  deletedAt: Date;
 }

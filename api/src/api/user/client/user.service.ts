@@ -4,10 +4,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity, UserProviderEnum } from '@src/entity/user/user.entity';
 import { Repository } from 'typeorm';
 import * as randomstring from 'randomstring';
-import { LocalDateTime } from '@js-joda/core';
+import { convert, LocalDateTime } from '@js-joda/core';
 import { VerifySnsTokenService } from '@src/utils/verifySnsToken/verifySnsToken.service';
 import { AuthTokenService } from '@src/utils/authToken/authToken.service';
 import { AuthResponseDto } from '@src/api/auth/client/dto/authResponse.dto';
+import { UpdateMyInfoRequestDto } from '@src/api/user/client/dto/updateMyInfoRequest.dto';
 
 @Injectable()
 export class UserService {
@@ -66,5 +67,20 @@ export class UserService {
       accessToken,
       refreshToken,
     };
+  }
+
+  async withdraw(user: UserEntity) {
+    user.sessionId = null;
+    user.deletedAt = convert(LocalDateTime.now()).toDate();
+    await this.userRepository.update(user.id, user);
+  }
+
+  async updateMyInfo(
+    user: UserEntity,
+    updateMyInfoRequestDto: UpdateMyInfoRequestDto,
+  ) {
+    user.nickname = updateMyInfoRequestDto.nickname;
+    await this.userRepository.update(user.id, user);
+    return user;
   }
 }
