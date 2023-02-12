@@ -24,14 +24,23 @@ export class UserService {
   }
 
   async signUp(signUpRequestDto: SignUpRequestDto): Promise<AuthResponseDto> {
+    let tokenId: string;
+    let tokenEmail: string;
+    if (signUpRequestDto.provider === UserProviderEnum.google) {
+      const { id, email } = await this.verifySnsTokenService.checkGoogleToken(
+        signUpRequestDto.token,
+      );
+      tokenId = id;
+      tokenEmail = email;
+    }
     const sessionId = randomstring.generate(32);
-
     const exist = await this.userRepository.findOneBy([
       {
-        email: signUpRequestDto.email,
+        email: tokenEmail,
       },
       {
-        providerId: signUpRequestDto.providerId,
+        provider: signUpRequestDto.provider,
+        providerId: tokenId,
       },
     ]);
 
@@ -39,18 +48,11 @@ export class UserService {
       throw new ConflictException('이미 가입된 계정정보 입니다.');
     }
 
-    if (signUpRequestDto.provider === UserProviderEnum.google) {
-      await this.verifySnsTokenService.checkGoogleToken(
-        signUpRequestDto.token,
-        signUpRequestDto.providerId,
-      );
-    }
-
     const userEntity = this.userRepository.create({
       sessionId,
-      email: signUpRequestDto.email,
+      email: tokenEmail,
       provider: signUpRequestDto.provider,
-      providerId: signUpRequestDto.providerId,
+      providerId: tokenId,
       nickname: signUpRequestDto.nickname,
       lastLogin: LocalDateTime.now(),
     });

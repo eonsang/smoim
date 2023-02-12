@@ -4,8 +4,6 @@ import { IsString } from 'class-validator';
 
 export class SignUpRequestDto extends PickType(UserEntity, [
   'provider',
-  'providerId',
-  'email',
   'nickname',
 ] as const) {
   @ApiProperty({

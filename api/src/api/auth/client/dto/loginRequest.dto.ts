@@ -4,7 +4,6 @@ import { IsString } from 'class-validator';
 
 export class LoginRequestDto extends PickType(UserEntity, [
   'provider',
-  'providerId',
 ] as const) {
   @ApiProperty({
     example: 'token',

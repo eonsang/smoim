@@ -38,7 +38,7 @@ export class UserEntity extends CommonEntity {
     example: 'google',
     description: '가입한 SNS',
   })
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   @IsEnum(UserProviderEnum)
   @Column({
     type: 'enum',

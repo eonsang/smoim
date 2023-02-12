@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { LoginRequestDto } from '@src/api/auth/client/dto/loginRequest.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '@src/entity/user/user.entity';
@@ -18,15 +18,21 @@ export class AuthService {
     private readonly authTokenService: AuthTokenService,
   ) {}
   async login(loginRequestDto: LoginRequestDto): Promise<AuthResponseDto> {
-    const user = await this.userRepository.findOneByOrFail({
+    const tokenResponse = await this.verifySnsTOkenService.checkGoogleToken(
+      loginRequestDto.token,
+    );
+
+    const user = await this.userRepository.findOneBy({
       provider: loginRequestDto.provider,
-      providerId: loginRequestDto.providerId,
+      providerId: tokenResponse.id,
     });
 
-    await this.verifySnsTOkenService.checkGoogleToken(
-      loginRequestDto.token,
-      user.providerId,
-    );
+    if (!user) {
+      throw new NotFoundException({
+        code: 40400,
+        message: '가입된 회원이 아닙니다.',
+      });
+    }
 
     const sessionId = randomstring.generate(32);
     await this.userRepository.update(user.id, {

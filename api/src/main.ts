@@ -40,11 +40,14 @@ async function bootstrap() {
       disableErrorMessages: process.env.NODE_ENV === 'production',
       exceptionFactory: (errors: ValidationError[]) =>
         new BadRequestException(
-          errors.map((error) => ({
-            property: error.property,
-            value: error.value,
-            reason: error.constraints,
-          })),
+          errors.map((error) => {
+            console.log(error);
+            return {
+              property: error.property,
+              value: error.value,
+              reason: error.constraints,
+            };
+          }),
         ),
     }),
   );

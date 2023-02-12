@@ -1,20 +1,25 @@
 import { HttpService } from '@nestjs/axios';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
+class ResponseVerifySnsToken {
+  email: string;
+  id: string;
+}
+
 @Injectable()
 export class VerifySnsTokenService {
   constructor(private readonly httpService: HttpService) {}
 
-  async checkGoogleToken(token: string, providerId: string): Promise<boolean> {
+  async checkGoogleToken(token: string): Promise<ResponseVerifySnsToken> {
     return this.httpService.axiosRef
       .get(
         `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${token}`,
       )
       .then((res) => {
-        if (res.data?.sub !== providerId) {
-          throw new BadRequestException('잘못된 인증 정보 입니다.');
-        }
-        return true;
+        return {
+          id: res.data.sub,
+          email: res.data.email,
+        };
       })
       .catch((err) => {
         throw err;
