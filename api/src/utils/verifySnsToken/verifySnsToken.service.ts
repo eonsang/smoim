@@ -25,4 +25,28 @@ export class VerifySnsTokenService {
         throw err;
       });
   }
+
+  async checkKakaoToken(token: string): Promise<ResponseVerifySnsToken> {
+    return this.httpService.axiosRef
+      .post(
+        `https://kapi.kakao.com/v2/user/me`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then((res) => {
+        return {
+          // TODO:: 카카오 개발콘솔에서 이메일 활성화 켜기 / 검수 필요
+          // 응답데이터에서 email 매핑 해주기
+          id: res.data.id,
+          email: '',
+        };
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
 }

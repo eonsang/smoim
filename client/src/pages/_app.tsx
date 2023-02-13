@@ -11,6 +11,8 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient } from "@tanstack/query-core";
 import { RecoilRoot } from "recoil";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { NotificationsProvider } from "@mantine/notifications";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -51,19 +53,22 @@ export default function App({
           colorScheme: "light",
         }}
       >
-        <SessionProvider session={session}>
-          <GoogleOAuthProvider
-            clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string}
-          >
-            <RecoilRoot>
-              <QueryClientProvider client={queryClient}>
-                <main className={notoSansKR.className}>
-                  {getLayout(<Component {...pageProps} />)}
-                </main>
-              </QueryClientProvider>
-            </RecoilRoot>
-          </GoogleOAuthProvider>
-        </SessionProvider>
+        <NotificationsProvider>
+          <SessionProvider session={session}>
+            <GoogleOAuthProvider
+              clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string}
+            >
+              <RecoilRoot>
+                <QueryClientProvider client={queryClient}>
+                  <main className={notoSansKR.className}>
+                    {getLayout(<Component {...pageProps} />)}
+                  </main>
+                  <ReactQueryDevtools initialIsOpen={false} />
+                </QueryClientProvider>
+              </RecoilRoot>
+            </GoogleOAuthProvider>
+          </SessionProvider>
+        </NotificationsProvider>
       </MantineProvider>
     </>
   );

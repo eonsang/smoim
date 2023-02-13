@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { LoginRequestDto } from '@src/api/auth/client/dto/loginRequest.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from '@src/entity/user/user.entity';
+import { UserEntity, UserProviderEnum } from '@src/entity/user/user.entity';
 import { Repository } from 'typeorm';
 import { VerifySnsTokenService } from '@src/utils/verifySnsToken/verifySnsToken.service';
 import { AuthResponseDto } from '@src/api/auth/client/dto/authResponse.dto';
@@ -18,13 +18,25 @@ export class AuthService {
     private readonly authTokenService: AuthTokenService,
   ) {}
   async login(loginRequestDto: LoginRequestDto): Promise<AuthResponseDto> {
-    const tokenResponse = await this.verifySnsTOkenService.checkGoogleToken(
-      loginRequestDto.token,
-    );
+    let tokenId: string;
+
+    if (loginRequestDto.provider === UserProviderEnum.google) {
+      const { id } = await this.verifySnsTOkenService.checkGoogleToken(
+        loginRequestDto.token,
+      );
+      tokenId = id;
+    }
+
+    if (loginRequestDto.provider === UserProviderEnum.kakao) {
+      const { id } = await this.verifySnsTOkenService.checkKakaoToken(
+        loginRequestDto.token,
+      );
+      tokenId = id;
+    }
 
     const user = await this.userRepository.findOneBy({
       provider: loginRequestDto.provider,
-      providerId: tokenResponse.id,
+      providerId: tokenId,
     });
 
     if (!user) {

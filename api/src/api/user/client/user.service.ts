@@ -33,11 +33,16 @@ export class UserService {
       tokenId = id;
       tokenEmail = email;
     }
+
+    if (signUpRequestDto.provider === UserProviderEnum.kakao) {
+      const { id, email } = await this.verifySnsTokenService.checkKakaoToken(
+        signUpRequestDto.token,
+      );
+      tokenId = id;
+      tokenEmail = email;
+    }
     const sessionId = randomstring.generate(32);
     const exist = await this.userRepository.findOneBy([
-      {
-        email: tokenEmail,
-      },
       {
         provider: signUpRequestDto.provider,
         providerId: tokenId,

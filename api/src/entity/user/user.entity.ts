@@ -8,6 +8,8 @@ import { Exclude, Transform } from 'class-transformer';
 
 export enum UserProviderEnum {
   google = 'google',
+  kakao = 'kakao',
+  apple = 'apple',
 }
 
 @Index(['email'])
@@ -30,7 +32,7 @@ export class UserEntity extends CommonEntity {
   @IsEmail()
   @Column({
     unique: true,
-    nullable: false,
+    nullable: true,
   })
   email: string;
 
