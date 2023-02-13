@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@js-joda/core": "^5.5.2",
+    "@liaoliaots/nestjs-redis": "^9.0.5",
     "@nestjs/axios": "^2.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
@@ -39,6 +40,7 @@
     "cookie-parser": "^1.4.6",
     "express-basic-auth": "^1.2.1",
     "helmet": "^6.0.1",
+    "ioredis": "^5.3.1",
     "mysql2": "^3.1.2",
     "passport-jwt": "^4.0.1",
     "randomstring": "^1.2.3",

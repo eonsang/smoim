@@ -54,6 +54,12 @@ export class EnvironmentVariables {
 
   @IsString()
   SWAGGER_PASSWORD: string;
+
+  @IsString()
+  REDIS_HOST: string;
+
+  @IsString()
+  REDIS_PORT: string;
 }
 
 export function validate(config: Record<string, unknown>) {

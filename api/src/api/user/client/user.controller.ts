@@ -16,11 +16,16 @@ import { CurrentUser } from '@src/decorator/currentUser.decorator';
 import { UserEntity } from '@src/entity/user/user.entity';
 import { UpdateMyInfoRequestDto } from '@src/api/user/client/dto/updateMyInfoRequest.dto';
 import { AuthResponseDto } from '@src/api/auth/client/dto/authResponse.dto';
+import { RedisCacheService } from '@src/utils/redisCache/redisCache.service';
+import { isNil } from '@nestjs/common/utils/shared.utils';
 
 @ApiTags('유저')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly redisCacheService: RedisCacheService,
+  ) {}
 
   @ApiOperation({
     summary: '회원가입',
