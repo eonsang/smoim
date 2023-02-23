@@ -48,53 +48,51 @@ export function HeaderLayout() {
   };
 
   return (
-    <Box>
-      <Header height={60} px="md">
-        <Group position="apart" sx={{ height: "100%" }}>
-          <Center w={280}>
-            <Text fz="xl" fw={"900"}>
-              스모임 smoim
-            </Text>
-          </Center>
-          {data ? (
-            <Menu
-              width={260}
-              position="bottom-end"
-              transition="pop-top-right"
-              onClose={() => {}}
-              onOpen={() => {}}
+    <Header height={60} px="md">
+      <Group position="apart" sx={{ height: "100%" }}>
+        <Center w={280}>
+          <Text fz="xl" fw={"900"}>
+            스모임 smoim
+          </Text>
+        </Center>
+        {data ? (
+          <Menu
+            width={260}
+            position="bottom-end"
+            transition="pop-top-right"
+            onClose={() => {}}
+            onOpen={() => {}}
+          >
+            <Menu.Target>
+              <UnstyledButton>
+                <Group spacing={2}>
+                  <Avatar size={30} src={data.user?.image} radius={30} />
+                  <Text size="sm" weight={500}>
+                    {data.user?.name}
+                  </Text>
+                </Group>
+              </UnstyledButton>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item>내 정보</Menu.Item>
+              <Menu.Divider />
+              <Menu.Item color={"red.5"} onClick={handleClickSignOut}>
+                로그아웃
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        ) : (
+          <Group className={classes.hiddenMobile}>
+            <Button
+              onClick={() =>
+                setUiState((prev) => ({ ...prev, openLoginPopup: true }))
+              }
             >
-              <Menu.Target>
-                <UnstyledButton>
-                  <Group spacing={2}>
-                    <Avatar size={30} src={data.user?.image} radius={30} />
-                    <Text size="sm" weight={500}>
-                      {data.user?.name}
-                    </Text>
-                  </Group>
-                </UnstyledButton>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item>내 정보</Menu.Item>
-                <Menu.Divider />
-                <Menu.Item color={"red.5"} onClick={handleClickSignOut}>
-                  로그아웃
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-          ) : (
-            <Group className={classes.hiddenMobile}>
-              <Button
-                onClick={() =>
-                  setUiState((prev) => ({ ...prev, openLoginPopup: true }))
-                }
-              >
-                시작하기
-              </Button>
-            </Group>
-          )}
-        </Group>
-      </Header>
-    </Box>
+              시작하기
+            </Button>
+          </Group>
+        )}
+      </Group>
+    </Header>
   );
 }

@@ -4,13 +4,15 @@ import {
   TextInput,
   Code,
   UnstyledButton,
-  Badge,
   Text,
-  Group,
-  ActionIcon,
-  Tooltip,
   useMantineTheme,
+  Flex,
+  Badge,
 } from "@mantine/core";
+import { AiOutlineSearch } from "react-icons/ai";
+import { memo } from "react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -71,111 +73,34 @@ const useStyles = createStyles((theme) => ({
       color: theme.colorScheme === "dark" ? theme.white : theme.black,
     },
   },
-
-  mainLinkInner: {
-    display: "flex",
-    alignItems: "center",
-    flex: 1,
-  },
-
-  mainLinkIcon: {
-    marginRight: theme.spacing.sm,
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[2]
-        : theme.colors.gray[6],
-  },
-
-  mainLinkBadge: {
-    padding: 0,
-    width: 20,
-    height: 20,
-    pointerEvents: "none",
-  },
-
-  collections: {
-    paddingLeft: theme.spacing.md - 6,
-    paddingRight: theme.spacing.md - 6,
-    paddingBottom: theme.spacing.md,
-  },
-
-  collectionsHeader: {
-    paddingLeft: theme.spacing.md + 2,
-    paddingRight: theme.spacing.md,
-    marginBottom: 5,
-  },
-
-  collectionLink: {
-    display: "block",
-    padding: `8px ${theme.spacing.xs}px`,
-    textDecoration: "none",
-    borderRadius: theme.radius.sm,
-    fontSize: theme.fontSizes.xs,
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
-    lineHeight: 1,
-    fontWeight: 500,
-
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-      color: theme.colorScheme === "dark" ? theme.white : theme.black,
-    },
-  },
 }));
 
-const links = [
-  { label: "Activity", notifications: 3 },
-  { label: "Tasks", notifications: 4 },
-  { label: "Contacts" },
-];
-
-const collections = [
-  { emoji: "👍", label: "Sales" },
-  { emoji: "🚚", label: "Deliveries" },
-  { emoji: "💸", label: "Discounts" },
-  { emoji: "💰", label: "Profits" },
-  { emoji: "✨", label: "Reports" },
-  { emoji: "🛒", label: "Orders" },
-  { emoji: "📅", label: "Events" },
-  { emoji: "🙈", label: "Debts" },
-  { emoji: "💁‍♀️", label: "Customers" },
-];
-
 export function NavLayout() {
+  const { data } = useSession();
   const { classes } = useStyles();
 
-  const mainLinks = links.map((link) => (
-    <UnstyledButton key={link.label} className={classes.mainLink}>
-      <div className={classes.mainLinkInner}>
-        {/*<link.icon size={20} className={classes.mainLinkIcon} stroke={1.5} />*/}
-        <span>{link.label}</span>
-      </div>
-      {link.notifications && (
-        <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
-          {link.notifications}
-        </Badge>
-      )}
-    </UnstyledButton>
-  ));
-
-  const collectionLinks = collections.map((collection) => (
-    <a
-      href="/"
-      onClick={(event) => event.preventDefault()}
-      key={collection.label}
-      className={classes.collectionLink}
-    >
-      <span style={{ marginRight: 9, fontSize: 16 }}>{collection.emoji}</span>{" "}
-      {collection.label}
-    </a>
-  ));
-
   const theme = useMantineTheme();
+
+  const NavItem = memo(
+    ({
+      label,
+      notification,
+      link,
+    }: {
+      label: string;
+      notification?: number;
+      link: string;
+    }) => (
+      <UnstyledButton className={classes.mainLink} component={Link} href={link}>
+        <Flex justify={"space-between"} align={"center"} w={"100%"}>
+          <Text size={14}>{label}</Text>
+          {typeof notification === "number" && <Badge>{notification}</Badge>}
+        </Flex>
+      </UnstyledButton>
+    )
+  );
+  NavItem.displayName = "navItem";
+
   return (
     <Navbar
       width={{ sm: 280 }}
@@ -184,32 +109,17 @@ export function NavLayout() {
       bg={theme.colors.gray[0]}
     >
       <TextInput
-        placeholder="Search"
-        size="xs"
-        // icon={<IconSearch size={12} stroke={1.5} />}
-        rightSectionWidth={70}
-        rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
-        styles={{ rightSection: { pointerEvents: "none" } }}
+        placeholder="키워드 검색"
+        size="sm"
+        icon={<AiOutlineSearch size={18} />}
         mb="sm"
       />
-
       <Navbar.Section className={classes.section}>
-        <div className={classes.mainLinks}>{mainLinks}</div>
-      </Navbar.Section>
-
-      <Navbar.Section className={classes.section}>
-        <Group className={classes.collectionsHeader} position="apart">
-          <Text size="xs" weight={500} color="dimmed">
-            Collections
-          </Text>
-          <Tooltip label="Create collection" withArrow position="right">
-            <ActionIcon variant="default" size={18}>
-              {/*<IconPlus size={12} stroke={1.5} />*/}
-              plus
-            </ActionIcon>
-          </Tooltip>
-        </Group>
-        <div className={classes.collections}>{collectionLinks}</div>
+        <div className={classes.mainLinks}>
+          <NavItem label={"전체 모임"} notification={3} link={"/"} />
+          {data && <NavItem label={"내 모임"} notification={3} link={"/"} />}
+          <NavItem label={"커뮤니티"} link={"/community"} />
+        </div>
       </Navbar.Section>
     </Navbar>
   );

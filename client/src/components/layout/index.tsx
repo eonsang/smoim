@@ -7,6 +7,7 @@ import {
   Flex,
   Input,
   Modal,
+  ScrollArea,
   Stack,
   Text,
   TypographyStylesProvider,
@@ -123,11 +124,11 @@ const LayoutContainer = ({ children }: Props) => {
   });
 
   return (
-    <div>
+    <Box>
       <HeaderLayout />
-      <Flex>
+      <Flex styles={() => ({ zIndex: 0, flex: 1 })}>
         <NavLayout />
-        <Container fluid={true} w={"100%"}>
+        <Container fluid={true} w={"100%"} p={"xl"}>
           {children}
         </Container>
       </Flex>
@@ -228,31 +229,11 @@ const LayoutContainer = ({ children }: Props) => {
                   구글 로그인
                 </Text>
               </Button>
-              {/*<Button*/}
-              {/*  fullWidth*/}
-              {/*  variant={"default"}*/}
-              {/*  h={48}*/}
-              {/*  bg={"#000"}*/}
-              {/*  styles={(theme) => ({*/}
-              {/*    root: {*/}
-              {/*      borderWidth: 0,*/}
-              {/*      backgroundColor: "#000",*/}
-              {/*      "&:hover": {*/}
-              {/*        backgroundColor: "#000",*/}
-              {/*      },*/}
-              {/*    },*/}
-              {/*  })}*/}
-              {/*>*/}
-              {/*  <BsApple size={26} color={"#fff"} />*/}
-              {/*  <Text ml={12} size={16} color={"#fff"}>*/}
-              {/*    애플 로그인*/}
-              {/*  </Text>*/}
-              {/*</Button>*/}
             </Stack>
           )}
         </Modal>
       </TypographyStylesProvider>
-    </div>
+    </Box>
   );
 };
 
