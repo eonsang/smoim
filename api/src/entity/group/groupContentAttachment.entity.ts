@@ -1,12 +1,12 @@
 import { CommonEntity } from '@src/entity/commonEntity';
 import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
-import { IsNumber, IsString } from 'class-validator';
+import { IsMimeType, IsString } from 'class-validator';
 import { GroupContentEntity } from '@src/entity/group/groupContent.entity';
 
-@Entity('group_content_chapter')
+@Entity('group_content_attachment')
 @Index('pk', ['id'], { unique: true })
 @Index('group_content_fk', ['groupContent'])
-export class GroupContentChapterEntity extends CommonEntity {
+export class GroupContentAttachmentEntity extends CommonEntity {
   @ManyToOne(() => GroupContentEntity, {
     onDelete: 'CASCADE',
   })
@@ -16,26 +16,22 @@ export class GroupContentChapterEntity extends CommonEntity {
   })
   groupContent: GroupContentEntity;
 
-  @IsNumber()
+  @IsMimeType()
   @Column({
-    type: 'int',
-    default: 1,
+    length: 10,
+    nullable: false,
   })
-  order: number;
-
-  @IsString()
-  @Column()
-  title: string;
+  fileType: string;
 
   @IsString()
   @Column({
-    type: 'text',
+    nullable: false,
   })
-  information: string;
+  originalName: string;
 
   @IsString()
   @Column({
-    type: 'text',
+    nullable: false,
   })
-  assignment: string;
+  key: string;
 }
