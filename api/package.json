@@ -20,6 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.279.0",
+    "@aws-sdk/s3-presigned-post": "^3.279.0",
     "@js-joda/core": "^5.5.2",
     "@liaoliaots/nestjs-redis": "^9.0.5",
     "@nestjs/axios": "^2.0.0",
@@ -41,13 +43,16 @@
     "express-basic-auth": "^1.2.1",
     "helmet": "^6.0.1",
     "ioredis": "^5.3.1",
+    "mime-types": "^2.1.35",
     "mysql2": "^3.1.2",
+    "nestjs-typeorm-paginate": "^4.0.3",
     "passport-jwt": "^4.0.1",
     "randomstring": "^1.2.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.12",
-    "typeorm-naming-strategies": "^4.1.0"
+    "typeorm-naming-strategies": "^4.1.0",
+    "uid": "^2.0.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
@@ -56,6 +61,7 @@
     "@types/cookie-parser": "^1.4.3",
     "@types/express": "^4.17.13",
     "@types/jest": "29.2.4",
+    "@types/mime-types": "^2.1.1",
     "@types/node": "18.11.18",
     "@types/passport-jwt": "^3.0.8",
     "@types/randomstring": "^1.1.8",

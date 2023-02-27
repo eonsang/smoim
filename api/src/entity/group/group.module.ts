@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GroupEntity } from '@src/entity/group/group.entity';
 import { GroupContentEntity } from '@src/entity/group/groupContent.entity';
-import { GroupContentChapterEntity } from '@src/entity/group/groupContentChapter.entity';
-import { GroupContentChapterAttachmentEntity } from '@src/entity/group/groupContentChapterAttachment.entity';
+import { GroupChapterEntity } from '@src/entity/group/groupChapter.entity';
+import { GroupChapterAttachmentEntity } from '@src/entity/group/groupChapterAttachment.entity';
 import { GroupJoinEntity } from '@src/entity/group/groupJoin.entity';
 import { GroupAssignmentEntity } from '@src/entity/group/groupAssignment.entity';
 import { GroupAssignmentCommentEntity } from '@src/entity/group/groupAssignmentComment.entity';
@@ -19,8 +19,8 @@ import { GroupContentAttachmentEntity } from '@src/entity/group/groupContentAtta
       GroupEntity,
       GroupContentEntity,
       GroupContentAttachmentEntity,
-      GroupContentChapterEntity,
-      GroupContentChapterAttachmentEntity,
+      GroupChapterEntity,
+      GroupChapterAttachmentEntity,
       GroupJoinEntity,
       GroupAssignmentEntity,
       GroupAssignmentAttachmentEntity,

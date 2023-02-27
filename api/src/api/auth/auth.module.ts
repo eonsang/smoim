@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { RouterModule } from '@nestjs/core';
 import { AuthClientModule } from '@src/api/auth/client/auth.module';
+import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -12,5 +12,7 @@ import { AuthClientModule } from '@src/api/auth/client/auth.module';
       },
     ]),
   ],
+  controllers: [],
+  providers: [],
 })
 export class AuthModule {}

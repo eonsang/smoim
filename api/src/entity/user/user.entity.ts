@@ -12,9 +12,9 @@ export enum UserProviderEnum {
   apple = 'apple',
 }
 
-@Index(['email'])
-@Index(['providerId', 'provider'])
-@Entity({ name: 'user' })
+@Index('email_idx', ['email'])
+@Index('provider_id_and_provider_idx', ['providerId', 'provider'])
+@Entity('user')
 export class UserEntity extends CommonEntity {
   @ApiProperty({
     example: '홍길동',

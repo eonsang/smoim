@@ -17,7 +17,6 @@ import { UserEntity } from '@src/entity/user/user.entity';
 import { UpdateMyInfoRequestDto } from '@src/api/user/client/dto/updateMyInfoRequest.dto';
 import { AuthResponseDto } from '@src/api/auth/client/dto/authResponse.dto';
 import { RedisCacheService } from '@src/utils/redisCache/redisCache.service';
-import { isNil } from '@nestjs/common/utils/shared.utils';
 
 @ApiTags('유저')
 @Controller('user')
@@ -75,4 +74,13 @@ export class UserController {
   ) {
     return this.userService.updateMyInfo(user, updateMyInfoRequestDto);
   }
+
+  @ApiOperation({
+    summary: '내가 참여한 모임 내역 조회',
+  })
+  @ApiOkResponse({ type: UserEntity })
+  @UseGuards(ClientJwtAuthGuard)
+  @Version('1')
+  @Get('/me/groups')
+  async findMyGroup(@CurrentUser() user: UserEntity) {}
 }

@@ -14,21 +14,21 @@ export class AuthService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    private readonly verifySnsTOkenService: VerifySnsTokenService,
+    private readonly verifySnsTokenService: VerifySnsTokenService,
     private readonly authTokenService: AuthTokenService,
   ) {}
   async login(loginRequestDto: LoginRequestDto): Promise<AuthResponseDto> {
     let tokenId: string;
 
     if (loginRequestDto.provider === UserProviderEnum.google) {
-      const { id } = await this.verifySnsTOkenService.checkGoogleToken(
+      const { id } = await this.verifySnsTokenService.checkGoogleToken(
         loginRequestDto.token,
       );
       tokenId = id;
     }
 
     if (loginRequestDto.provider === UserProviderEnum.kakao) {
-      const { id } = await this.verifySnsTOkenService.checkKakaoToken(
+      const { id } = await this.verifySnsTokenService.checkKakaoToken(
         loginRequestDto.token,
       );
       tokenId = id;

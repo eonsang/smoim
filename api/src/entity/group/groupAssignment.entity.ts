@@ -2,14 +2,14 @@ import { CommonEntity } from '@src/entity/commonEntity';
 import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
 import { GroupEntity } from '@src/entity/group/group.entity';
 import { UserEntity } from '@src/entity/user/user.entity';
-import { GroupContentChapterEntity } from '@src/entity/group/groupContentChapter.entity';
+import { GroupChapterEntity } from '@src/entity/group/groupChapter.entity';
 import { IsString } from 'class-validator';
 
 @Entity('group_assignment')
 @Index('pk', ['id'], { unique: true })
 @Index('group_fk', ['group'])
 @Index('user_fk', ['user'])
-@Index('group_chapter_fk', ['groupContentChapter'])
+@Index('group_chapter_fk', ['groupChapter'])
 export class GroupAssignmentEntity extends CommonEntity {
   @ManyToOne(() => GroupEntity, {
     onDelete: 'CASCADE',
@@ -31,14 +31,14 @@ export class GroupAssignmentEntity extends CommonEntity {
   })
   user: UserEntity;
 
-  @ManyToOne(() => GroupContentChapterEntity, {
+  @ManyToOne(() => GroupChapterEntity, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({
-    name: 'group_content_chapter_id',
+    name: 'group_chapter_id',
     referencedColumnName: 'id',
   })
-  groupContentChapter: GroupContentChapterEntity;
+  groupChapter: GroupChapterEntity;
 
   @IsString()
   @Column({

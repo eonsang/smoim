@@ -8,20 +8,20 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { IsMimeType, IsString } from 'class-validator';
-import { GroupContentEntity } from '@src/entity/group/groupContent.entity';
+import { GroupChapterEntity } from '@src/entity/group/groupChapter.entity';
 
-@Entity('group_content_attachment')
+@Entity('group_chapter_attachment')
 @Index('pk', ['id'], { unique: true })
-@Index('group_content_fk', ['groupContent'])
-export class GroupContentAttachmentEntity extends CommonEntity {
-  @ManyToOne(() => GroupContentEntity, {
+@Index('group_chapter_fk', ['groupChapter'])
+export class GroupChapterAttachmentEntity extends CommonEntity {
+  @ManyToOne(() => GroupChapterEntity, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({
-    name: 'group_content_id',
+    name: 'group_chapter_id',
     referencedColumnName: 'id',
   })
-  groupContent: GroupContentEntity;
+  groupChapter: GroupChapterEntity;
 
   @IsMimeType()
   @Column({

@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 
-enum Environment {
+export enum Environment {
   Development = 'development',
   Production = 'production',
   Test = 'test',
@@ -60,6 +60,18 @@ export class EnvironmentVariables {
 
   @IsString()
   REDIS_PORT: string;
+
+  @IsString()
+  AWS_REGION: string;
+
+  @IsString()
+  AWS_S3_ACCESS_KEY: string;
+
+  @IsString()
+  AWS_S3_SECRET_ACCESS_KEY: string;
+
+  @IsString()
+  AWS_S3_BUCKET_NAME: string;
 }
 
 export function validate(config: Record<string, unknown>) {

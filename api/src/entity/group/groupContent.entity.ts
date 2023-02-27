@@ -2,8 +2,8 @@ import { CommonEntity } from '@src/entity/commonEntity';
 import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
 import { GroupEntity } from '@src/entity/group/group.entity';
 import { IsBoolean, IsNumber, IsString } from 'class-validator';
-import { LocalDateTime } from '@js-joda/core';
-import { LocalDateTimeTransformer } from '@src/entity/transfomer/localDateTimeTransformer';
+import { LocalDate } from '@js-joda/core';
+import { LocalDateTransformer } from '@src/entity/transfomer/localDateTransformer';
 
 @Entity('group_content')
 @Index('pk', ['id'], { unique: true })
@@ -85,14 +85,14 @@ export class GroupContentEntity extends CommonEntity {
   @Column({
     type: 'date',
     nullable: false,
-    transformer: new LocalDateTimeTransformer(),
+    transformer: new LocalDateTransformer(),
   })
-  startDate: LocalDateTime;
+  startDate: LocalDate;
 
   @Column({
     type: 'date',
     nullable: false,
-    transformer: new LocalDateTimeTransformer(),
+    transformer: new LocalDateTransformer(),
   })
-  endDate: LocalDateTime;
+  endDate: LocalDate;
 }
