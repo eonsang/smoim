@@ -18,16 +18,12 @@ export class GroupService {
     private readonly dataSource: DataSource,
     @InjectRepository(GroupEntity)
     private readonly groupRepository: Repository<GroupEntity>,
-
     @InjectRepository(GroupContentEntity)
     private readonly groupContentRepository: Repository<GroupContentEntity>,
-
     @InjectRepository(GroupContentAttachmentEntity)
     private readonly groupContentAttachmentRepository: Repository<GroupContentAttachmentEntity>,
-
     @InjectRepository(GroupChapterEntity)
     private readonly groupChapterRepository: Repository<GroupChapterEntity>,
-
     @InjectRepository(GroupChapterAttachmentEntity)
     private readonly groupChapterAttachmentRepository: Repository<GroupChapterAttachmentEntity>,
   ) {}

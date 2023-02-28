@@ -39,6 +39,8 @@ export class AuthService {
       providerId: tokenId,
     });
 
+    console.log('user', user);
+
     if (!user) {
       throw new NotFoundException({
         code: 40400,

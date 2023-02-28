@@ -1,7 +1,6 @@
 import axios, {
   AxiosInstance,
   AxiosInterceptorManager,
-  AxiosRequestConfig,
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
@@ -22,7 +21,7 @@ export interface TErrorRespnose {
 
 // 인스턴스를 생성할때 config 기본값 설정하기
 const client: CustomInstance = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "http://localhost:3001/api",
   timeout: 5000,
 });
 

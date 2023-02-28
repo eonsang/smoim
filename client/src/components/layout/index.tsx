@@ -7,7 +7,6 @@ import {
   Flex,
   Input,
   Modal,
-  ScrollArea,
   Stack,
   Text,
   TypographyStylesProvider,
@@ -16,7 +15,6 @@ import React from "react";
 import Image from "next/image";
 import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
-import { BsApple } from "react-icons/bs";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { uiState } from "@/recoil/atom/ui";
 import { useMutation } from "@tanstack/react-query";
@@ -129,7 +127,7 @@ const LayoutContainer = ({ children }: Props) => {
       <Flex styles={() => ({ zIndex: 0, flex: 1 })}>
         <NavLayout />
         <Container fluid={true} w={"100%"} p={"xl"}>
-          {children}
+          <Box maw={"960px"}>{children}</Box>
         </Container>
       </Flex>
       <TypographyStylesProvider>

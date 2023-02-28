@@ -108,12 +108,12 @@ export function NavLayout() {
       className={classes.navbar}
       bg={theme.colors.gray[0]}
     >
-      <TextInput
-        placeholder="키워드 검색"
-        size="sm"
-        icon={<AiOutlineSearch size={18} />}
-        mb="sm"
-      />
+      {/*<TextInput*/}
+      {/*  placeholder="키워드 검색"*/}
+      {/*  size="sm"*/}
+      {/*  icon={<AiOutlineSearch size={18} />}*/}
+      {/*  mb="sm"*/}
+      {/*/>*/}
       <Navbar.Section className={classes.section}>
         <div className={classes.mainLinks}>
           <NavItem label={"전체 모임"} notification={3} link={"/"} />

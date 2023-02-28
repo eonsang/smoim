@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import LayoutContainer from "@/components/layout";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
@@ -11,14 +11,21 @@ import {
   Menu,
   SimpleGrid,
   Stack,
-  Tabs,
-  Text,
   TextInput,
 } from "@mantine/core";
 import { MoimCard } from "@/components/card/MoimCard";
+import { useQuery } from "@tanstack/react-query";
+import { queryKey } from "@/constants/queryKey";
+import { getGroups } from "@/api/group.api";
+import Link from "next/link";
 
 export default function Home() {
   const { data } = useSession();
+  const [page, setPage] = useState<number>(1);
+
+  const groupQuery = useQuery(queryKey.getGroups(1, 20), () =>
+    getGroups({ page, size: 20 })
+  );
 
   return (
     <Stack>
@@ -36,12 +43,13 @@ export default function Home() {
             </Menu.Dropdown>
           </Menu>
         </Grid.Col>
-        <Grid.Col span={"auto"}>
-          <Box bg={"#f00"}>2</Box>
-        </Grid.Col>
-        <Grid.Col span={6}>
-          <Box bg={"#f00"}>3</Box>
-        </Grid.Col>
+        {data && (
+          <Grid.Col span={6}>
+            <Button href={"/group/register"} component={Link}>
+              스터디 등록하기
+            </Button>
+          </Grid.Col>
+        )}
       </Grid>
 
       <SimpleGrid
@@ -53,9 +61,9 @@ export default function Home() {
           { maxWidth: 600, cols: 1, spacing: "sm" },
         ]}
       >
-        {[1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4].map((_, index) => (
+        {groupQuery.data?.data.items.map((group, index) => (
           <MoimCard
-            key={index}
+            key={group.id}
             image={"https://picsum.photos/400/180"}
             category={"develop"}
             title={"스터디 모집합니다~!"}
@@ -78,7 +86,6 @@ Home.getLayout = function getLayout(page: ReactElement) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, authOptions);
-
   return {
     props: {
       session,

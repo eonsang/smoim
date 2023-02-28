@@ -51,7 +51,7 @@ export class GroupController {
   // @ApiOkResponse({ type: UserEntity })
   @UseGuards(ClientJwtAuthGuard)
   @Version('1')
-  @Post()
+  @Post('/')
   async registerGroup(
     @CurrentUser() user: UserEntity,
     @Body() requestBody: RegisterGroupRequestDto,
